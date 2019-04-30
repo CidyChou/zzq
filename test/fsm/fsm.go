@@ -39,7 +39,7 @@ func (f *FSM) AddHandler(state FSMState, event FSMEvent, handler FSMHandler) *FS
 	return f
 }
 
-// 事件处理
+// Call is 事件处理
 func (f *FSM) Call(event FSMEvent) FSMState {
 	f.mu.Lock()
 	defer f.mu.Unlock()

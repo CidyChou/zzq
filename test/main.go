@@ -38,20 +38,20 @@ var (
 )
 
 // 电风扇
-type ElectricFan struct {
+type Chessboard struct {
 	*fsm.FSM
 }
 
-// 实例化电风扇
-func NewElectricFan(initState fsm.FSMState) *ElectricFan {
-	return &ElectricFan{
+// 实例化棋盘
+func NewChessboard(initState fsm.FSMState) *Chessboard {
+	return &Chessboard{
 		FSM: fsm.NewFSM(initState),
 	}
 }
 
 // 入口函数
 func main() {
-	efan := NewElectricFan(Search) // 初始状态
+	efan := NewChessboard(Search) // 初始状态
 	// 寻找目标
 	efan.AddHandler(Search, TargetOutSideEvent, TargetOutSideHandler)
 	efan.AddHandler(Search, TargetInSidEvent, TargetInSideHandler)
