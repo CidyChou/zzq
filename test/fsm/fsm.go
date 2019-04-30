@@ -1,13 +1,14 @@
-package main
+package fsm
 
 import (
+	model "dc-sz/dc/zzq/model/attr"
 	"fmt"
 	"sync"
 )
 
-type FSMState string            // 状态
-type FSMEvent string            // 事件
-type FSMHandler func() FSMState // 处理方法，并返回新的状态
+type FSMState string                                             // 状态
+type FSMEvent string                                             // 事件
+type FSMHandler func(hero model.Hero, enemy model.Hero) FSMState // 处理方法，并返回新的状态
 
 // 有限状态机
 type FSM struct {
@@ -48,7 +49,11 @@ func (f *FSM) Call(event FSMEvent) FSMState {
 	}
 	if fn, ok := events[event]; ok {
 		oldState := f.getState()
-		f.setState(fn())
+
+		heroA := &model.Hero{1, 700, 0, 1, 100, 5, 1, 1, [2]int{1, 1}}
+		heroB := &model.Hero{2, 500, 0, 1, 80, 5, 1, 1, [2]int{4, 4}}
+
+		f.setState(fn(*heroA, *heroB))
 		newState := f.getState()
 		fmt.Println("状态从 [", oldState, "] 变成 [", newState, "]")
 	}
