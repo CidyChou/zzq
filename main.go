@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	heroA := &model.Hero{1, 700, 0, 1, 100, 5, 1, 1, [2]int{1, 1}}
+	heroA := &model.Hero{1, 700, 0, 1, 100, 5, 1, 1, [2]int{4, 1}}
 	heroB := &model.Hero{2, 500, 0, 1, 80, 5, 1, 1, [2]int{4, 4}}
 
 	playerA := []model.Hero{*heroA}

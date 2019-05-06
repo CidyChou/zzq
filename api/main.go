@@ -2,9 +2,10 @@
 package main
 
 import (
-	model "dc-sz/dc/zzq/model/attr"
-	"dc-sz/dc/zzq/test/fsm"
 	"fmt"
+
+	"dc-sz/dc/zzq/api/fsm"
+	model "dc-sz/dc/zzq/model/attr"
 )
 
 var (
@@ -37,12 +38,12 @@ var (
 	})
 )
 
-// 电风扇
+// Chessboard is 棋盘
 type Chessboard struct {
 	*fsm.FSM
 }
 
-// 实例化棋盘
+// NewChessboard is 实例化棋盘
 func NewChessboard(initState fsm.FSMState) *Chessboard {
 	return &Chessboard{
 		FSM: fsm.NewFSM(initState),
@@ -51,21 +52,25 @@ func NewChessboard(initState fsm.FSMState) *Chessboard {
 
 // 入口函数
 func main() {
-	efan := NewChessboard(Search) // 初始状态
+	chessboard := NewChessboard(Search) // 初始状态
 	// 寻找目标
-	efan.AddHandler(Search, TargetOutSideEvent, TargetOutSideHandler)
-	efan.AddHandler(Search, TargetInSidEvent, TargetInSideHandler)
+	chessboard.AddHandler(Search, TargetOutSideEvent, TargetOutSideHandler)
+	chessboard.AddHandler(Search, TargetInSidEvent, TargetInSideHandler)
 
 	// 攻击状态
-	efan.AddHandler(Attack, TargetDealEvent, TargetDealHandler)
+	chessboard.AddHandler(Attack, TargetDealEvent, TargetDealHandler)
 
 	// 移动状态
-	efan.AddHandler(Move, TargetDealEvent, TargetDealHandler)
-	efan.AddHandler(Move, TargetInSidEvent, TargetInSideHandler)
+	chessboard.AddHandler(Move, TargetDealEvent, TargetDealHandler)
+	chessboard.AddHandler(Move, TargetInSidEvent, TargetInSideHandler)
 
 	// 开始测试状态变化
-	efan.Call(TargetOutSideEvent)
-	efan.Call(TargetInSidEvent)
-	efan.Call(TargetDealEvent)
-	efan.Call(TargetInSidEvent)
+	chessboard.Call(TargetOutSideEvent)
+	chessboard.Call(TargetInSidEvent)
+	chessboard.Call(TargetDealEvent)
+	chessboard.Call(TargetInSidEvent)
+}
+
+func init() {
+
 }
