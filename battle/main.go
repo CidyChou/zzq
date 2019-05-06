@@ -15,7 +15,7 @@ func main() {
 	playerA := []model.Hero{*heroA}
 	playerB := []model.Hero{*heroB}
 
-	fmt.Println("开始", playerA, playerB)
+	fmt.Printf("开始,玩家A %v，玩家B %v \n", playerA, playerB)
 	call(*heroA, *heroB)
 }
 

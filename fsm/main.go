@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 
-	"dc-sz/dc/zzq/api/fsm"
+	fsm "dc-sz/dc/zzq/fsm/index"
 	model "dc-sz/dc/zzq/model/attr"
 )
 
@@ -14,26 +14,24 @@ var (
 	Move   = fsm.FSMState("移动")
 	Skill  = fsm.FSMState("释放技能")
 
-	TargetDealEvent    = fsm.FSMEvent("目标死亡")
-	TargetOutSideEvent = fsm.FSMEvent("目标在范围内")
-	TargetInSidEvent   = fsm.FSMEvent("目标在范围外")
+	TargetDealEvent    = fsm.FSMEvent("发现目标死亡")
+	TargetOutSideEvent = fsm.FSMEvent("发现目标在范围内")
+	TargetInSidEvent   = fsm.FSMEvent("发现目标在范围外")
 
 	TargetDealHandler = fsm.FSMHandler(func(hero model.Hero, enemy model.Hero) fsm.FSMState {
-		fmt.Println("Hero:", hero, enemy)
-		fmt.Println("在移动时目标已死亡,重新搜寻目标")
+		fmt.Println("目标已死亡 => 重新搜寻目标")
 		return Search
 	})
 
 	TargetOutSideHandler = fsm.FSMHandler(func(hero model.Hero, enemy model.Hero) fsm.FSMState {
-		fmt.Println("Hero:", hero, enemy)
-		fmt.Println("敌人在攻击范围以外,移动")
+		fmt.Println("敌人在攻击范围以外 => 移动")
 		return Move
 	})
 
 	// TargetInSideHandler is 目标在攻击范围外
 	TargetInSideHandler = fsm.FSMHandler(func(hero model.Hero, enemy model.Hero) fsm.FSMState {
-		fmt.Println("Hero:", hero, enemy)
-		fmt.Println("敌人在攻击范围以内,攻击")
+		//fmt.Println("Hero:", hero, enemy)
+		fmt.Println("敌人在攻击范围以内 => 攻击")
 		return Attack
 	})
 )
@@ -53,6 +51,8 @@ func NewChessboard(initState fsm.FSMState) *Chessboard {
 // 入口函数
 func main() {
 	chessboard := NewChessboard(Search) // 初始状态
+	fmt.Println("初始状态 => 搜寻目标")
+
 	// 寻找目标
 	chessboard.AddHandler(Search, TargetOutSideEvent, TargetOutSideHandler)
 	chessboard.AddHandler(Search, TargetInSidEvent, TargetInSideHandler)
@@ -69,8 +69,4 @@ func main() {
 	chessboard.Call(TargetInSidEvent)
 	chessboard.Call(TargetDealEvent)
 	chessboard.Call(TargetInSidEvent)
-}
-
-func init() {
-
 }

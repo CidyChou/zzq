@@ -6,15 +6,16 @@ import (
 	"sync"
 )
 
-type FSMState string                                             // 状态
-type FSMEvent string                                             // 事件
+type FSMState string // 状态
+type FSMEvent string // 事件
+type FSMMoveEven [][]int
 type FSMHandler func(hero model.Hero, enemy model.Hero) FSMState // 处理方法，并返回新的状态
 
-// 有限状态机
+//FSM is 有限状态机
 type FSM struct {
-	mu       sync.Mutex                           // 排他锁
-	state    FSMState                             // 当前状态
-	handlers map[FSMState]map[FSMEvent]FSMHandler // 处理地图集，每一个状态都可以出发有限个事件，执行有限个处理
+	mu       sync.Mutex
+	state    FSMState
+	handlers map[FSMState]map[FSMEvent]FSMHandler
 }
 
 // 获取当前状态
@@ -27,7 +28,7 @@ func (f *FSM) setState(newState FSMState) {
 	f.state = newState
 }
 
-// 某状态添加事件处理方法
+//AddHandler is  为某状态添加事件处理方法
 func (f *FSM) AddHandler(state FSMState, event FSMEvent, handler FSMHandler) *FSM {
 	if _, ok := f.handlers[state]; !ok {
 		f.handlers[state] = make(map[FSMEvent]FSMHandler)
@@ -50,10 +51,7 @@ func (f *FSM) Call(event FSMEvent) FSMState {
 	if fn, ok := events[event]; ok {
 		oldState := f.getState()
 
-		heroA := &model.Hero{1, 700, 0, 1, 100, 5, 1, 1, [2]int{1, 1}}
-		heroB := &model.Hero{2, 500, 0, 1, 80, 5, 1, 1, [2]int{4, 4}}
-
-		f.setState(fn(*heroA, *heroB))
+		f.setState(fn(model.Hero{}, model.Hero{}))
 		newState := f.getState()
 		fmt.Println("状态从 [", oldState, "] 变成 [", newState, "]")
 	}
