@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	legal := [][]int{
 		{1, 1, 1, 1},
 		{1, 1, 1, 1},

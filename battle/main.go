@@ -16,14 +16,10 @@ func main() {
 	playerB := []model.Hero{*heroB}
 
 	fmt.Printf("开始,玩家A %v，玩家B %v \n", playerA, playerB)
-	call(*heroA, *heroB)
+	battle(*heroA, *heroB) // 暂时只考虑一个棋子
 }
 
-// 主流程
-//func call(playerA []model.Hero, playerB []model.Hero) {
-func call(hero model.Hero, anemyHero model.Hero) {
-	//fmt.Println("棋子间的距离   :", getDistanceByHero(hero, anemyHero))
-
+func battle(hero model.Hero, anemyHero model.Hero) {
 	if hero.HP <= 0 {
 		fmt.Printf("英雄%v  获胜 \n", hero.Id)
 		return
@@ -64,13 +60,13 @@ func call(hero model.Hero, anemyHero model.Hero) {
 		anemyHero = move(anemyHero, SearchPath(anemyHero, hero))
 	}
 
-	call(hero, anemyHero)
+	battle(hero, anemyHero)
 }
 
 // 循环
-func loop(hero model.Hero, anemyHero model.Hero) {
-	loop(hero, anemyHero)
-}
+// func loop(hero model.Hero, anemyHero model.Hero) {
+// 	loop(hero, anemyHero)
+// }
 
 // 攻击
 func attack(hero model.Hero, anemyHero model.Hero) model.Hero {
@@ -117,7 +113,6 @@ func searchTarget(hero model.Hero, anemyHeros []*model.Hero) model.Hero {
 	}
 
 	// if len(anemyHerosMap) > 1 {
-
 	// }
 	return h
 }
@@ -126,7 +121,7 @@ func searchTarget(hero model.Hero, anemyHeros []*model.Hero) model.Hero {
 func SearchPath(hero model.Hero, anemyHero model.Hero) [2]int {
 	p := hero.Position
 	availablepaths := getAttackRange(p, hero.AttackRange)
-	// TODO 过滤棋牌以外的位置
+	// TODO 过滤棋盘以外的位置 && 其他棋子已占位置
 	var pathMap map[float64][2]int
 	pathMap = make(map[float64][2]int)
 
