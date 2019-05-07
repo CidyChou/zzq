@@ -9,6 +9,7 @@ type Hero struct {
 	Pace        int    // 移动速度
 	AttackRange int    // 攻击范围
 	Position    [2]int // 位置
+	Point
 }
 
 //IHero is 英雄接口

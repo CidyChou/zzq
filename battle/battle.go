@@ -48,7 +48,7 @@ func Battle(hero model.Hero, anemyHero model.Hero) {
 		anemyHero = move(anemyHero, SearchPath(anemyHero, hero))
 	}
 
-	battle(hero, anemyHero)
+	Battle(hero, anemyHero)
 }
 
 // 循环
