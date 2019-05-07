@@ -1,25 +1,13 @@
-package main
+package battle
 
 import (
+	model "dc-sz/dc/zzq/model/attr"
 	"fmt"
 	"math"
 	"sort"
-
-	model "dc-sz/dc/zzq/model/attr"
 )
 
-func main() {
-	heroA := &model.Hero{1, 700, 0, 1, 100, 5, 1, 1, [2]int{4, 1}}
-	heroB := &model.Hero{2, 500, 0, 1, 80, 5, 1, 1, [2]int{4, 4}}
-
-	playerA := []model.Hero{*heroA}
-	playerB := []model.Hero{*heroB}
-
-	fmt.Printf("开始,玩家A %v，玩家B %v \n", playerA, playerB)
-	battle(*heroA, *heroB) // 暂时只考虑一个棋子
-}
-
-func battle(hero model.Hero, anemyHero model.Hero) {
+func Battle(hero model.Hero, anemyHero model.Hero) {
 	if hero.HP <= 0 {
 		fmt.Printf("英雄%v  获胜 \n", hero.Id)
 		return

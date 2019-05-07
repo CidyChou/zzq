@@ -3,28 +3,12 @@ package astar
 import (
 	"container/heap"
 	"container/list"
-	"math"
+
+	model "dc-sz/dc/zzq/model/attr"
 )
 
-// Point is 棋子坐标
-type Point struct {
-	X int
-	Y int
-}
-
-// Area is G(x) H(x)
-type Area struct {
-	Point
-	G int
-	H int
-}
-
 type closeList [][]bool
-type openList []Area
-
-func (a Point) getManhattanDistance(b Point) int {
-	return int(math.Abs(float64(a.X-b.X)) + math.Abs(float64(a.Y-b.Y)))
-}
+type openList []model.Area
 
 func (closeList) New(x, y int) closeList {
 	res := make([][]bool, x)
@@ -47,7 +31,7 @@ func (ls openList) Swap(a, b int) {
 }
 
 func (ls *openList) Push(x interface{}) {
-	*ls = append(*ls, x.(Area))
+	*ls = append(*ls, x.(model.Area))
 }
 
 func (ls *openList) Pop() interface{} {
@@ -57,7 +41,7 @@ func (ls *openList) Pop() interface{} {
 	return res
 }
 
-func getPath(start, end Point, pathPre map[Point]Point) *list.List {
+func getPath(start, end model.Point, pathPre map[model.Point]model.Point) *list.List {
 	pathList := list.New()
 	pathCur := end
 
@@ -71,20 +55,20 @@ func getPath(start, end Point, pathPre map[Point]Point) *list.List {
 }
 
 // Search is 寻路
-func Search(legal [][]int, start, end Point) (int, *list.List) {
+func Search(legal [][]int, start, end model.Point) (int, *list.List) {
 	row := len(legal)
 	column := len(legal[0])
 	var closeList closeList
 	closeList = closeList.New(row, column) //将起点区域添加到open列表中
 	var openList openList
-	openList = make([]Area, row*column)
-	pathPre := map[Point]Point{}
+	openList = make([]model.Area, row*column)
+	pathPre := map[model.Point]model.Point{}
 	dir := [][]int{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
 
-	openList[0] = Area{start, 0, 0}
+	openList[0] = model.Area{start, 0, 0}
 
 	for len(openList) > 0 {
-		cur := openList.Pop().(Area)
+		cur := openList.Pop().(model.Area)
 		closeList[cur.X][cur.Y] = true
 		if cur.Point == end {
 			return cur.G, getPath(start, end, pathPre)
@@ -94,12 +78,12 @@ func Search(legal [][]int, start, end Point) (int, *list.List) {
 			x := cur.X + v[0]
 			y := cur.Y + v[1]
 			g := cur.G + 1
-			h := end.getManhattanDistance(cur.Point)
+			h := end.GetManhattanDistance(cur.Point)
 
 			if x >= 0 && x < row && y >= 0 && y < column && legal[x][y] != 0 && !closeList[x][y] {
 
 				inopen := false
-				tar := Area{Point{x, y}, g, h}
+				tar := model.Area{model.Point{x, y}, g, h}
 
 				for index := 0; index < len(openList); index++ {
 					if openList[index].Point == tar.Point {
