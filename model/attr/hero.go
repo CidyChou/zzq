@@ -2,7 +2,8 @@ package model
 
 //Hero is 英雄属性
 type Hero struct {
-	Id          int
+	ID          int    // Id
+	Type        int    // 英雄类型 1:我方 2：敌方 3：其他
 	HP          int    // 血量
 	Attack      int    // 攻击力
 	Armor       int    // 护甲

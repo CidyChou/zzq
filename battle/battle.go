@@ -51,10 +51,9 @@ func Battle(hero model.Hero, anemyHero model.Hero) {
 	Battle(hero, anemyHero)
 }
 
-// 循环
-// func loop(hero model.Hero, anemyHero model.Hero) {
-// 	loop(hero, anemyHero)
-// }
+func loop(hero model.Hero, anemyHero model.Hero) {
+	loop(hero, anemyHero)
+}
 
 // 攻击
 func attack(hero model.Hero, anemyHero model.Hero) model.Hero {
