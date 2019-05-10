@@ -16,6 +16,12 @@ func (closeList) New(x, y int) closeList {
 		res[i] = make([]bool, y)
 	}
 	return res
+
+
+
+
+
+	
 }
 
 func (ls openList) Len() int {

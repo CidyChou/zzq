@@ -9,12 +9,12 @@ import (
 
 func Battle(hero model.Hero, anemyHero model.Hero) {
 	if hero.HP <= 0 {
-		fmt.Printf("英雄%v  获胜 \n", hero.Id)
+		fmt.Printf("英雄%v  获胜 \n", hero.ID)
 		return
 	}
 
 	if anemyHero.HP <= 0 {
-		fmt.Printf("英雄%v  获胜 \n", anemyHero.Id)
+		fmt.Printf("英雄%v  获胜 \n", anemyHero.ID)
 		return
 	}
 
@@ -51,22 +51,18 @@ func Battle(hero model.Hero, anemyHero model.Hero) {
 	Battle(hero, anemyHero)
 }
 
-func loop(hero model.Hero, anemyHero model.Hero) {
-	loop(hero, anemyHero)
-}
-
 // 攻击
 func attack(hero model.Hero, anemyHero model.Hero) model.Hero {
-	fmt.Printf("英雄%v  开始攻击,原始HP:%v \n", hero.Id, anemyHero.HP)
+	fmt.Printf("英雄%v  开始攻击,原始HP:%v \n", hero.ID, anemyHero.HP)
 	damage := hero.Attack - anemyHero.Armor
 	anemyHero.HP = anemyHero.HP - damage
-	fmt.Printf("英雄%v  开始攻击,被攻击后HP：%v \n", hero.Id, anemyHero.HP)
+	fmt.Printf("英雄%v  开始攻击,被攻击后HP：%v \n", hero.ID, anemyHero.HP)
 	return anemyHero
 }
 
 // 移动
 func move(hero model.Hero, position [2]int) model.Hero {
-	fmt.Printf("英雄%v  开始移动：初始位置:%v 移动后位置:%v \n", hero.Id, hero.Position, position)
+	fmt.Printf("英雄%v  开始移动：初始位置:%v 移动后位置:%v \n", hero.ID, hero.Position, position)
 	hero.Position = position
 	return hero
 }
